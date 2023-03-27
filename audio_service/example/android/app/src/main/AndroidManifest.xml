@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.msob7y.namidaexample">
+    package="com.ryanheise.audioserviceexample">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
@@ -14,7 +14,7 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
-            android:name="com.msob7y.namida.AudioServiceActivity"
+            android:name="com.ryanheise.audioservice.AudioServiceActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
@@ -37,7 +37,7 @@
         </activity>
 
         <service
-            android:name="com.msob7y.namida.AudioService"
+            android:name="com.ryanheise.audioservice.AudioService"
             android:foregroundServiceType="mediaPlayback"
             android:exported="true"
             tools:ignore="Instantiatable">
@@ -47,7 +47,7 @@
         </service>
 
         <receiver
-            android:name="com.msob7y.namida.MediaButtonReceiver"
+            android:name="com.ryanheise.audioservice.MediaButtonReceiver"
             android:exported="true"
             tools:ignore="Instantiatable">
             <intent-filter>

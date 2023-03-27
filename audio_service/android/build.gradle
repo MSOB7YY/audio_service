@@ -1,4 +1,4 @@
-group 'com.msob7y.namida'
+group 'com.ryanheise.audioservice'
 version '1.0-SNAPSHOT'
 def args = ["-Xlint:deprecation","-Xlint:unchecked","-Werror"]
 

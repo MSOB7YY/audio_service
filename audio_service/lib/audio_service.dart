@@ -2123,7 +2123,7 @@ class _IsolateRequest {
 class IsolatedAudioHandler extends CompositeAudioHandler {
   /// The default port name by which this isolated audio handler can be looked
   /// up.
-  static const defaultPortName = 'com.msob7y.namida.port';
+  static const defaultPortName = 'com.ryanheise.audioservice.port';
 
   /// Connect to an [IsolatedAudioHandler] from another isolate having the name
   /// [portName] (defaulting to [defaultPortName]).

@@ -32,7 +32,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.msob7y.namidaexample"
+        applicationId "com.ryanheise.audioserviceexample"
         minSdkVersion 21
         targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()

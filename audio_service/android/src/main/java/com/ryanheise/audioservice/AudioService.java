@@ -1,4 +1,4 @@
-package com.msob7y.namida;
+package com.ryanheise.audioservice;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -60,7 +60,7 @@ public class AudioService extends MediaBrowserServiceCompat {
 
     private static final int NOTIFICATION_ID = 1124;
     private static final int REQUEST_CONTENT_INTENT = 1000;
-    public static final String NOTIFICATION_CLICK_ACTION = "com.msob7y.namida.NOTIFICATION_CLICK";
+    public static final String NOTIFICATION_CLICK_ACTION = "com.ryanheise.audioservice.NOTIFICATION_CLICK";
     private static final String BROWSABLE_ROOT_ID = "root";
     private static final String RECENT_ROOT_ID = "recent";
     // See the comment in onMediaButtonEvent to understand how the BYPASS keycodes work.

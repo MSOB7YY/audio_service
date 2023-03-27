@@ -1,4 +1,4 @@
-package com.msob7y.namida;
+package com.ryanheise.audioservice;
 
 import android.content.Context;
 import android.content.SharedPreferences;

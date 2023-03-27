@@ -1,4 +1,4 @@
-package com.msob7y.namida;
+package com.ryanheise.audioservice;
 
 public class MediaControl {
     public final String icon;

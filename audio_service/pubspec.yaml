@@ -51,7 +51,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.msob7y.namida
+        package: com.ryanheise.audioservice
         pluginClass: AudioServicePlugin
       ios:
         pluginClass: AudioServicePlugin

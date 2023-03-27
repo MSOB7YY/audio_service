@@ -1,10 +1,10 @@
-package com.msob7y.namida;
+package com.ryanheise.audioservice;
 
 import android.content.Context;
 import android.content.Intent;
 
 public class MediaButtonReceiver extends androidx.media.session.MediaButtonReceiver {
-    public static final String ACTION_NOTIFICATION_DELETE = "com.msob7y.namida.intent.action.ACTION_NOTIFICATION_DELETE";
+    public static final String ACTION_NOTIFICATION_DELETE = "com.ryanheise.audioservice.intent.action.ACTION_NOTIFICATION_DELETE";
 
     @Override
     public void onReceive(Context context, Intent intent) {
