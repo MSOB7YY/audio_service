@@ -1,4 +1,4 @@
-package com.ryanheise.audioserviceexample;
+package com.msob7y.namidaexample;
 
 import io.flutter.embedding.android.FlutterActivity;
 

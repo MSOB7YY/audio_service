@@ -1,4 +1,4 @@
-package com.ryanheise.audioservice;
+package com.msob7y.namida;
 
 public enum AudioProcessingState {
     idle,

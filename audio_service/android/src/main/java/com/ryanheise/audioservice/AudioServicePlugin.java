@@ -1,4 +1,4 @@
-package com.ryanheise.audioservice;
+package com.msob7y.namida;
 
 import android.app.Activity;
 import android.content.ComponentName;

@@ -330,12 +330,12 @@ Additionally:
     ...
     
     <!-- EDIT THE android:name ATTRIBUTE IN YOUR EXISTING "ACTIVITY" ELEMENT -->
-    <activity android:name="com.ryanheise.audioservice.AudioServiceActivity" ...>
+    <activity android:name="com.msob7y.namida.AudioServiceActivity" ...>
       ...
     </activity>
     
     <!-- ADD THIS "SERVICE" element -->
-    <service android:name="com.ryanheise.audioservice.AudioService"
+    <service android:name="com.msob7y.namida.AudioService"
         android:foregroundServiceType="mediaPlayback"
         android:exported="true" tools:ignore="Instantiatable">
       <intent-filter>
@@ -344,7 +344,7 @@ Additionally:
     </service>
 
     <!-- ADD THIS "RECEIVER" element -->
-    <receiver android:name="com.ryanheise.audioservice.MediaButtonReceiver"
+    <receiver android:name="com.msob7y.namida.MediaButtonReceiver"
         android:exported="true" tools:ignore="Instantiatable">
       <intent-filter>
         <action android:name="android.intent.action.MEDIA_BUTTON" />
@@ -390,7 +390,7 @@ Depending on whether you activity is a regular `Activity` or a `FragmentActivity
 1. Integration as an `Activity`:
 
 ```java
-import com.ryanheise.audioservice.AudioServiceActivity;
+import com.msob7y.namida.AudioServiceActivity;
 
 class MainActivity extends AudioServiceActivity {
     // ...
@@ -400,7 +400,7 @@ class MainActivity extends AudioServiceActivity {
 2. Integration as a `FragmentActivity`:
 
 ```java
-import com.ryanheise.audioservice.AudioServiceFragmentActivity;
+import com.msob7y.namida.AudioServiceFragmentActivity;
 
 class MainActivity extends AudioServiceFragmentActivity {
     // ...
