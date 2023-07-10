@@ -950,9 +950,11 @@ public class AudioService extends MediaBrowserServiceCompat {
 
         @Override
         public void onStop() {
+            legacyStopForeground(true);
+            getNotificationManager().cancel(NOTIFICATION_ID);
+            
             if (listener == null) return;
             listener.onStop();
-            legacyStopForeground(true);
         }
 
         @Override
