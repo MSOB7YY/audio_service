@@ -952,6 +952,7 @@ public class AudioService extends MediaBrowserServiceCompat {
         public void onStop() {
             if (listener == null) return;
             listener.onStop();
+            legacyStopForeground(true);
         }
 
         @Override
