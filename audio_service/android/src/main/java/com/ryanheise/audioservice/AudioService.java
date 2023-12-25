@@ -349,7 +349,8 @@ public class AudioService extends MediaBrowserServiceCompat {
 
     public void stop() {
         deactivateMediaSession();
-        stopSelf();
+        legacyStopForeground(true);
+        getNotificationManager().cancel(NOTIFICATION_ID);
     }
 
     @Override
