@@ -963,6 +963,27 @@ public class AudioServicePlugin implements FlutterPlugin, ActivityAware {
                 result.success(null);
                 break;
             }
+            case "forceStop": {
+                if (AudioService.instance != null) {
+                    AudioService.instance.forceStop();
+                }
+                result.success(null);
+                break;
+            }
+            case "activateMediaSession": {
+                if (AudioService.instance != null) {
+                    AudioService.instance.activateMediaSession();
+                }
+                result.success(null);
+                break;
+            }
+            case "deactivateMediaSession": {
+                if (AudioService.instance != null) {
+                    AudioService.instance.deactivateMediaSession();
+                }
+                result.success(null);
+                break;
+            }
             }
         }
 

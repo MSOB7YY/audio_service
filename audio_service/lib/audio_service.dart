@@ -1070,6 +1070,21 @@ class AudioService {
     await _platform.stopService(const StopServiceRequest());
   }
 
+  /// Force stops the service & removes notification.
+  static Future<void> forceStop() async {
+    await _platform.forceStop(const ForceStopRequest());
+  }
+
+  /// Activates MediaSession
+  static Future<void> activateMediaSession() async {
+    await _platform.activateMediaSession(const ActivateMediaSessionRequest());
+  }
+
+ /// Deactivates MediaSession
+  static Future<void> deactivateMediaSession() async {
+    await _platform.deactivateMediaSession(const DeactivateMediaSessionRequest());
+  }
+
   static Future<void> _loadAllArtwork(List<MediaItem> queue) async {
     for (var mediaItem in queue) {
       await _loadArtwork(mediaItem);

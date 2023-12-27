@@ -35,6 +35,21 @@ class MethodChannelAudioService extends AudioServicePlatform {
   }
 
   @override
+  Future<void> forceStop(ForceStopRequest request) async {
+    await handlerChannel.invokeMethod<void>('forceStop', request.toMap());
+  }
+
+  @override
+  Future<void> activateMediaSession(ActivateMediaSessionRequest request) async {
+    await handlerChannel.invokeMethod<void>('activateMediaSession', request.toMap());
+  }
+
+  @override
+  Future<void> deactivateMediaSession(DeactivateMediaSessionRequest request) async {
+    await handlerChannel.invokeMethod<void>('deactivateMediaSession', request.toMap());
+  }
+
+  @override
   Future<void> androidForceEnableMediaButtons(
       AndroidForceEnableMediaButtonsRequest request) async {
     await handlerChannel.invokeMethod<void>(

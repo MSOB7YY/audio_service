@@ -349,7 +349,11 @@ public class AudioService extends MediaBrowserServiceCompat {
 
     public void stop() {
         deactivateMediaSession();
-        legacyStopForeground(true);
+    }
+
+    public void forceStop() {
+        legacyStopForeground(false);
+        releaseWakeLock();
         getNotificationManager().cancel(NOTIFICATION_ID);
     }
 
@@ -682,12 +686,12 @@ public class AudioService extends MediaBrowserServiceCompat {
             wakeLock.release();
     }
 
-    private void activateMediaSession() {
+    public void activateMediaSession() {
         if (!mediaSession.isActive())
             mediaSession.setActive(true);
     }
 
-    private void deactivateMediaSession() {
+    public void deactivateMediaSession() {
         if (mediaSession.isActive()) {
             mediaSession.setActive(false);
         }

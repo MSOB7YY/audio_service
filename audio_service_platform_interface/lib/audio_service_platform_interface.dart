@@ -55,6 +55,18 @@ abstract class AudioServicePlatform extends PlatformInterface {
     throw UnimplementedError('stopService() has not been implemented.');
   }
 
+  Future<void> forceStop(ForceStopRequest request) {
+    throw UnimplementedError('forceStop() has not been implemented.');
+  }
+  
+  Future<void> activateMediaSession(ActivateMediaSessionRequest request) {
+    throw UnimplementedError('activateMediaSession() has not been implemented.');
+  }
+
+  Future<void> deactivateMediaSession(DeactivateMediaSessionRequest request) {
+    throw UnimplementedError('deactivateMediaSession() has not been implemented.');
+  }
+
   Future<void> setAndroidPlaybackInfo(
       SetAndroidPlaybackInfoRequest request) async {
     throw UnimplementedError(
@@ -808,6 +820,26 @@ class SetMediaItemRequest {
 class StopServiceRequest {
   @literal
   const StopServiceRequest();
+
+  Map<String, dynamic> toMap() => <String, dynamic>{};
+}
+class ForceStopRequest {
+  @literal
+  const ForceStopRequest();
+
+  Map<String, dynamic> toMap() => <String, dynamic>{};
+}
+
+class ActivateMediaSessionRequest {
+  @literal
+  const ActivateMediaSessionRequest();
+
+  Map<String, dynamic> toMap() => <String, dynamic>{};
+}
+
+class DeactivateMediaSessionRequest {
+  @literal
+  const DeactivateMediaSessionRequest();
 
   Map<String, dynamic> toMap() => <String, dynamic>{};
 }
