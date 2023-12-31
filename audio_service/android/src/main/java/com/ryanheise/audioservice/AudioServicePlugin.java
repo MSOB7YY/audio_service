@@ -970,6 +970,13 @@ public class AudioServicePlugin implements FlutterPlugin, ActivityAware {
                 result.success(null);
                 break;
             }
+            case "evictArtworkCache": {
+                if (AudioService.instance != null) {
+                    AudioService.instance.evictArtworkCache();
+                }
+                result.success(null);
+                break;
+            }
             case "activateMediaSession": {
                 if (AudioService.instance != null) {
                     AudioService.instance.activateMediaSession();

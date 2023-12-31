@@ -67,6 +67,10 @@ abstract class AudioServicePlatform extends PlatformInterface {
     throw UnimplementedError('deactivateMediaSession() has not been implemented.');
   }
 
+  Future<void> evictArtworkCache(EvictArtworkCacheRequest request) {
+    throw UnimplementedError('evictArtworkCache() has not been implemented.');
+  }
+
   Future<void> setAndroidPlaybackInfo(
       SetAndroidPlaybackInfoRequest request) async {
     throw UnimplementedError(
@@ -840,6 +844,13 @@ class ActivateMediaSessionRequest {
 class DeactivateMediaSessionRequest {
   @literal
   const DeactivateMediaSessionRequest();
+
+  Map<String, dynamic> toMap() => <String, dynamic>{};
+}
+
+class EvictArtworkCacheRequest {
+  @literal
+  const EvictArtworkCacheRequest();
 
   Map<String, dynamic> toMap() => <String, dynamic>{};
 }

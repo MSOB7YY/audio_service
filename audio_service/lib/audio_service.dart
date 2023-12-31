@@ -1085,6 +1085,11 @@ class AudioService {
     await _platform.deactivateMediaSession(const DeactivateMediaSessionRequest());
   }
 
+  /// Evicts Artwork Cache from memory
+  static Future<void> evictArtworkCache() async {
+    await _platform.evictArtworkCache(const EvictArtworkCacheRequest());
+  }
+
   static Future<void> _loadAllArtwork(List<MediaItem> queue) async {
     for (var mediaItem in queue) {
       await _loadArtwork(mediaItem);

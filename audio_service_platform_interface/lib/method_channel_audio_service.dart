@@ -50,6 +50,11 @@ class MethodChannelAudioService extends AudioServicePlatform {
   }
 
   @override
+  Future<void> evictArtworkCache(EvictArtworkCacheRequest request) async {
+    await handlerChannel.invokeMethod<void>('evictArtworkCache', request.toMap());
+  }
+
+  @override
   Future<void> androidForceEnableMediaButtons(
       AndroidForceEnableMediaButtonsRequest request) async {
     await handlerChannel.invokeMethod<void>(
