@@ -352,9 +352,18 @@ public class AudioService extends MediaBrowserServiceCompat {
     }
 
     public void forceStop() {
-        legacyStopForeground(false);
+        if (mediaSession.isActive()) {
+            mediaSession.setActive(false);
+        }
         releaseWakeLock();
         getNotificationManager().cancel(NOTIFICATION_ID);
+        if (listener != null) {
+            listener.onStop();
+        }
+        legacyStopForeground(true);
+        stopSelf();
+    } 
+    
     }
 
     @Override
@@ -955,11 +964,7 @@ public class AudioService extends MediaBrowserServiceCompat {
 
         @Override
         public void onStop() {
-            legacyStopForeground(true);
-            getNotificationManager().cancel(NOTIFICATION_ID);
-            
-            if (listener == null) return;
-            listener.onStop();
+            forceStop();
         }
 
         @Override
