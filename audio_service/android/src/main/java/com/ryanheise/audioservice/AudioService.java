@@ -57,6 +57,7 @@ public class AudioService extends MediaBrowserServiceCompat {
     public static final int CONTENT_STYLE_CATEGORY_GRID_ITEM_HINT_VALUE = 4;
 
     private static final String SHARED_PREFERENCES_NAME = "audio_service_preferences";
+    private static final boolean isA14 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
 
     private static final int NOTIFICATION_ID = 1124;
     private static final int REQUEST_CONTENT_INTENT = 1000;
@@ -108,7 +109,7 @@ public class AudioService extends MediaBrowserServiceCompat {
 
     public static int toKeyCode(long action) {
         if (action == PlaybackStateCompat.ACTION_PLAY) {
-            return KEYCODE_BYPASS_PLAY;
+            return isA14 ? KeyEvent.KEYCODE_MEDIA_PLAY : KEYCODE_BYPASS_PLAY;
         } else if (action == PlaybackStateCompat.ACTION_PAUSE) {
             return KEYCODE_BYPASS_PAUSE;
         } else {
@@ -905,8 +906,15 @@ public class AudioService extends MediaBrowserServiceCompat {
             // TODO: use typesafe version once SDK 33 is released.
             @SuppressWarnings("deprecation")
             final KeyEvent event = (KeyEvent)mediaButtonEvent.getExtras().getParcelable(Intent.EXTRA_KEY_EVENT);
-            if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                switch (event.getKeyCode()) {
+            final int action = event.getAction();
+            final int keyCode = event.getKeyCode();
+            
+            if (isA14 && keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) {
+                onPlay();
+                return true;
+            }
+            if (action == KeyEvent.ACTION_DOWN) {
+                switch (keyCode) {
                 case KEYCODE_BYPASS_PLAY:
                     onPlay();
                     break;
