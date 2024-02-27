@@ -71,6 +71,10 @@ abstract class AudioServicePlatform extends PlatformInterface {
     throw UnimplementedError('evictArtworkCache() has not been implemented.');
   }
 
+  Future<void> setLockScreenArtwork(bool show) {
+    throw UnimplementedError('setLockScreenArtwork() has not been implemented.');
+  }
+
   Future<void> setAndroidPlaybackInfo(
       SetAndroidPlaybackInfoRequest request) async {
     throw UnimplementedError(

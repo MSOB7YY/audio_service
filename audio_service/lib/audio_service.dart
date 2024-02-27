@@ -1089,6 +1089,11 @@ class AudioService {
   static Future<void> evictArtworkCache() async {
     await _platform.evictArtworkCache(const EvictArtworkCacheRequest());
   }
+  
+  /// toggle showing artwork on lockscreen, etc.
+  static Future<void> setLockScreenArtwork(bool show) async {
+    await _platform.setLockScreenArtwork(show);
+  }
 
   static Future<void> _loadAllArtwork(List<MediaItem> queue) async {
     for (var mediaItem in queue) {
