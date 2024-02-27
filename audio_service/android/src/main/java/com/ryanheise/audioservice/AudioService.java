@@ -374,7 +374,8 @@ public class AudioService extends MediaBrowserServiceCompat {
         final boolean shouldRefresh = show != this.lockscreenArtwork;
         this.lockscreenArtwork = show;
         if (shouldRefresh) {
-          putArtToMetadata(this.mediaMetadata);
+          this.mediaMetadata = putArtToMetadata(this.mediaMetadata);
+          mediaSession.setMetadata(this.mediaMetadata);
         }
     }
 
