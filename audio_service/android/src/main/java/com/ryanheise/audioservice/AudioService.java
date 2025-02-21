@@ -36,6 +36,7 @@ import androidx.media.VolumeProviderCompat;
 import androidx.media.app.NotificationCompat.MediaStyle;
 import androidx.media.utils.MediaConstants;
 
+import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -218,7 +219,7 @@ public class AudioService extends MediaBrowserServiceCompat {
                     if (fileDescriptor != null) {
                         BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
                     } else {
-                        BitmapFactory.decodeFile(artUri.getPath(), options);
+                        BitmapFactory.decodeFile(new File(artUriString).getPath(), options);
                     }
                     options.inSampleSize = calculateInSampleSize(options, config.artDownscaleWidth, config.artDownscaleHeight);
                     options.inJustDecodeBounds = false;
@@ -226,13 +227,13 @@ public class AudioService extends MediaBrowserServiceCompat {
                     if (fileDescriptor != null) {
                         bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
                     } else {
-                        bitmap = BitmapFactory.decodeFile(artUri.getPath(), options);
+                        bitmap = BitmapFactory.decodeFile(new File(artUriString).getPath(), options);
                     }
                 } else {
                     if (fileDescriptor != null) {
                         bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor);
                     } else {
-                        bitmap = BitmapFactory.decodeFile(artUri.getPath());
+                        bitmap = BitmapFactory.decodeFile(new File(artUriString).getPath());
                     }
                 }
             }
