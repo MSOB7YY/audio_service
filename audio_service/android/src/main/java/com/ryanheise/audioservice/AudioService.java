@@ -301,8 +301,8 @@ public class AudioService extends MediaBrowserServiceCompat {
 
     @Override
     public void onCreate() {
-        super.onCreate();
         instance = this;
+        super.onCreate();
         repeatMode = 0;
         shuffleMode = 0;
         notificationCreated = false;
