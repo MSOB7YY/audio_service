@@ -191,6 +191,15 @@ class AudioServiceWeb extends AudioServicePlatform {
   }
 
   @override
+  Future<void> forceStop(ForceStopRequest request) async {
+    if (!_mediaSessionSupported.check()) {
+      return;
+    }
+    _mediaSession.metadata = null;
+    mediaItem = null;
+  }
+
+  @override
   void setHandlerCallbacks(AudioHandlerCallbacks callbacks) {
     if (!_mediaSessionSupported.check()) {
       return;

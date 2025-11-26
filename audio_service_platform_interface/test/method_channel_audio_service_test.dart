@@ -110,6 +110,19 @@ void main() {
         )
       ]);
     });
+    
+    test('forceStop', () async {
+      const request = ForceStopRequest();
+      final methods = {'forceStop': null};
+      final channel = sendHandlerChannel.copyWith(methods);
+      await platform.forceStop(request);
+      expect(channel.log, [
+        isMethodCall(
+          'forceStop',
+          arguments: request.toMap(),
+        )
+      ]);
+    });
 
     test('androidForceEnableMediaButtons', () async {
       const request = AndroidForceEnableMediaButtonsRequest();

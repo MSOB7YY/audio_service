@@ -57,6 +57,12 @@ void main() {
     expect(futureEnded, false);
   });
 
+  test('forceStop is no-op', () async {
+    runFuture();
+    await platform.forceStop(const ForceStopRequest());
+    expect(futureEnded, false);
+  });
+
   test('androidForceEnableMediaButtons is no-op', () async {
     runFuture();
     await platform.androidForceEnableMediaButtons(
