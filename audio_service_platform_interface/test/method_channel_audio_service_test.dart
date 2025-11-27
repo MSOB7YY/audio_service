@@ -168,6 +168,19 @@ void main() {
       ]);
     });
 
+    test('evictArtworkCache', () async {
+      const request = EvictArtworkCacheRequest();
+      final methods = {'evictArtworkCache': null};
+      final channel = sendHandlerChannel.copyWith(methods);
+      await platform.evictArtworkCache(request);
+      expect(channel.log, [
+        isMethodCall(
+          'evictArtworkCache',
+          arguments: request.toMap(),
+        )
+      ]);
+    });
+
     test('remote setAndroidPlaybackInfo', () async {
       const request = SetAndroidPlaybackInfoRequest(
         playbackInfo: RemoteAndroidPlaybackInfoMessage(

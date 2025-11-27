@@ -1109,6 +1109,10 @@ class AudioService {
     }
   }
 
+  static Future<void> evictArtworkCache() async {
+    await _platform.evictArtworkCache(const EvictArtworkCacheRequest());
+  }
+
   static Future<void> _observeQueue() async {
     await for (var queue in _handler.queue) {
       if (_config.preloadArtwork) {
