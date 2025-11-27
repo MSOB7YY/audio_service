@@ -1232,6 +1232,11 @@ class AudioService {
     );
   }
 
+  /// toggle showing artwork on lockscreen, etc.
+  static Future<void> setLockScreenArtwork(bool show) async {
+    await _platform.setLockScreenArtwork(show);
+  }
+
   /// Stops the service.
   static Future<void> _stop() async {
     await _platform.stopService(const StopServiceRequest());
