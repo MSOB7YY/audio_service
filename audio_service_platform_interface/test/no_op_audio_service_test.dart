@@ -87,6 +87,12 @@ void main() {
     expect(futureEnded, false);
   });
 
+  test('evictArtworkCache is no-op', () async {
+    runFuture();
+    await platform.evictArtworkCache(const EvictArtworkCacheRequest());
+    expect(futureEnded, false);
+  });
+
   // This function returns void, so just check it doesn't throw
 
   test('setHandlerCallbacks is no-op', () async {

@@ -61,6 +61,13 @@ class MethodChannelAudioService extends AudioServicePlatform {
   }
 
   @override
+  Future<void> evictArtworkCache(
+      EvictArtworkCacheRequest request) async {
+    await handlerChannel.invokeMethod<void>(
+        'evictArtworkCache', request.toMap());
+  }
+
+  @override
   void setHandlerCallbacks(AudioHandlerCallbacks callbacks) {
     handlerChannel.setMethodCallHandler((call) async {
       return handlerCallbacksCallHandler(callbacks, call);
