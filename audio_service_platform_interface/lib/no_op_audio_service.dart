@@ -45,5 +45,10 @@ class NoOpAudioService extends AudioServicePlatform {
   }
 
   @override
+  Future<void> evictArtworkCache(EvictArtworkCacheRequest request) {
+    return SynchronousFuture(null);
+  }
+
+  @override
   void setHandlerCallbacks(AudioHandlerCallbacks callbacks) {}
 }

@@ -60,6 +60,12 @@ abstract class AudioServicePlatform extends PlatformInterface {
         'setAndroidPlaybackInfo() has not been implemented.');
   }
 
+  Future<void> evictArtworkCache(
+      EvictArtworkCacheRequest request) async {
+    throw UnimplementedError(
+        'evictArtworkCache() has not been implemented.');
+  }
+
   Future<void> androidForceEnableMediaButtons(
       AndroidForceEnableMediaButtonsRequest request) async {
     throw UnimplementedError(
@@ -853,6 +859,12 @@ class SetAndroidPlaybackInfoRequest {
   Map<String, dynamic> toMap() => <String, dynamic>{
         'playbackInfo': playbackInfo.toMap(),
       };
+}
+class EvictArtworkCacheRequest {
+  @literal
+  const EvictArtworkCacheRequest();
+
+  Map<String, dynamic> toMap() => <String, dynamic>{};
 }
 
 class AndroidForceEnableMediaButtonsRequest {

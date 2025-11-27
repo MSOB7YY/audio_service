@@ -54,6 +54,10 @@ void main() {
       throwsUnimplementedError,
     );
     expect(
+      () => platform.evictArtworkCache(const EvictArtworkCacheRequest()),
+      throwsUnimplementedError,
+    );
+    expect(
       () => platform.androidForceEnableMediaButtons(
           const AndroidForceEnableMediaButtonsRequest()),
       throwsUnimplementedError,

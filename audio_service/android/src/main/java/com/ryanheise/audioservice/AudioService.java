@@ -357,6 +357,10 @@ public class AudioService extends MediaBrowserServiceCompat {
         stopSelf();
     }
 
+    public void evictArtworkCache() {
+        artBitmapCache.evictAll();
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
