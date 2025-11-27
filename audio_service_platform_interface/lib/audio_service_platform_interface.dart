@@ -66,6 +66,11 @@ abstract class AudioServicePlatform extends PlatformInterface {
         'androidForceEnableMediaButtons() has not been implemented.');
   }
 
+  Future<void> setLockScreenArtwork(bool show) async {
+    throw UnimplementedError(
+        'setLockScreenArtwork() has not been implemented.');
+  }
+
   Future<void> notifyChildrenChanged(
       NotifyChildrenChangedRequest request) async {
     throw UnimplementedError(

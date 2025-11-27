@@ -987,6 +987,14 @@ public class AudioServicePlugin implements FlutterPlugin, ActivityAware {
                     result.success(null);
                     break;
                 }
+                case "setLockScreenArtwork": {
+                    final Boolean show = (Boolean) args.get("show");
+                    if (show != null && AudioService.instance != null) {
+                        AudioService.instance.setLockScreenArtwork(show);
+                    }
+                    result.success(null);
+                    break;
+                }
                 case "stopService": {
                     if (AudioService.instance != null) {
                         AudioService.instance.stop();

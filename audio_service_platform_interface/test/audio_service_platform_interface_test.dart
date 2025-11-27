@@ -59,6 +59,10 @@ void main() {
       throwsUnimplementedError,
     );
     expect(
+      () => platform.setLockScreenArtwork(true),
+      throwsUnimplementedError,
+    );
+    expect(
       () => platform.notifyChildrenChanged(const NotifyChildrenChangedRequest(
           parentMediaId: Stubs.parentMediaId, options: Stubs.map)),
       throwsUnimplementedError,
