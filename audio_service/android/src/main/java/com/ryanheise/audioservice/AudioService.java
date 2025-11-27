@@ -275,6 +275,7 @@ public class AudioService extends MediaBrowserServiceCompat {
     private List<PlaybackStateCompat.CustomAction> customActions = new ArrayList<>();
     private int[] compactActionIndices;
     private MediaMetadataCompat mediaMetadata;
+    private boolean lockscreenArtwork = true;
     private Bitmap artBitmap;
     private String notificationChannelId;
     private LruCache<String, Bitmap> artBitmapCache;
@@ -372,6 +373,14 @@ public class AudioService extends MediaBrowserServiceCompat {
 
     public void evictArtworkCache() {
         artBitmapCache.evictAll();
+    }
+
+    public void setLockScreenArtwork(boolean show) {
+        final boolean shouldRefresh = show != this.lockscreenArtwork;
+        this.lockscreenArtwork = show;
+        if (shouldRefresh) {
+          setMetadata(this.mediaMetadata);
+        }
     }
 
     @Override
@@ -824,10 +833,12 @@ public class AudioService extends MediaBrowserServiceCompat {
     }
 
     private MediaMetadataCompat putArtToMetadata(MediaMetadataCompat mediaMetadata) {
-        return new MediaMetadataCompat.Builder(mediaMetadata)
-                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, artBitmap)
-                .putBitmap(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON, artBitmap)
-                .build();
+        final MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder(mediaMetadata);
+        if (this.lockscreenArtwork) {
+          builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, artBitmap);
+        }
+        builder.putBitmap(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON, artBitmap);
+        return builder.build();
     }
 
     @Override

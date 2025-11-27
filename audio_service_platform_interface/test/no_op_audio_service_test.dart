@@ -70,6 +70,12 @@ void main() {
     expect(futureEnded, false);
   });
 
+  test('setLockScreenArtwork is no-op', () async {
+    runFuture();
+    await platform.setLockScreenArtwork(true);
+    expect(futureEnded, false);
+  });
+
   test('notifyChildrenChanged is no-op', () async {
     runFuture();
     await platform.notifyChildrenChanged(const NotifyChildrenChangedRequest(
