@@ -1021,6 +1021,7 @@ public class AudioServicePlugin implements FlutterPlugin, ActivityAware {
                     result.success(null);
                     break;
                 }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 result.error(e.getMessage(), null, null);

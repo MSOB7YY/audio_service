@@ -368,7 +368,7 @@ public class AudioService extends MediaBrowserServiceCompat {
         if (listener != null) {
             listener.onStop();
         }
-        legacyStopForeground(true);
+        ServiceCompat.stopForeground(this, STOP_FOREGROUND_REMOVE);
         stopSelf();
     }
 
