@@ -369,6 +369,7 @@ public class AudioService extends MediaBrowserServiceCompat {
             listener.onStop();
         }
         ServiceCompat.stopForeground(this, STOP_FOREGROUND_REMOVE);
+        stopForeground(STOP_FOREGROUND_REMOVE);
         stopSelf();
     }
 
@@ -400,6 +401,7 @@ public class AudioService extends MediaBrowserServiceCompat {
         compactActionIndices = null;
         releaseMediaSession();
         ServiceCompat.stopForeground(this, config.androidResumeOnClick ? STOP_FOREGROUND_DETACH : STOP_FOREGROUND_REMOVE);
+        stopForeground(config.androidResumeOnClick ? STOP_FOREGROUND_DETACH : STOP_FOREGROUND_REMOVE);
         // This still does not solve the Android 11 problem.
         // if (notificationCreated) {
         //     NotificationManager notificationManager = getNotificationManager();
@@ -747,6 +749,7 @@ public class AudioService extends MediaBrowserServiceCompat {
 
     private void exitForegroundState() {
         ServiceCompat.stopForeground(this, STOP_FOREGROUND_DETACH);
+        stopForeground(STOP_FOREGROUND_DETACH);
         releaseWakeLock();
     }
 
