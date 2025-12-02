@@ -1118,7 +1118,7 @@ public class AudioService extends MediaBrowserServiceCompat {
         public void onCustomAction(String action, Bundle extras) {
             if (listener == null) return;
             if (CUSTOM_ACTION_STOP.equals(action)) {
-                listener.onStop();
+                forceStop();
             } else if (CUSTOM_ACTION_FAST_FORWARD.equals(action)) {
                 listener.onFastForward();
             } else if (CUSTOM_ACTION_REWIND.equals(action)) {
