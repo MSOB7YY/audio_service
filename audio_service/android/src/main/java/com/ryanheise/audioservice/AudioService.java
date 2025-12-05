@@ -313,7 +313,7 @@ public class AudioService extends MediaBrowserServiceCompat {
         notificationCreated = false;
         playing = false;
         processingState = AudioProcessingState.idle;
-        mediaSession = new MediaSessionCompat(this, "media-session");
+        mediaSession = new MediaSessionCompat(this, getApplicationContext().getPackageName());
 
         configure(new AudioServiceConfig(getApplicationContext()));
 
