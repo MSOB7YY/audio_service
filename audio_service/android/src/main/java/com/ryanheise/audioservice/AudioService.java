@@ -63,6 +63,9 @@ public class AudioService extends MediaBrowserServiceCompat {
 
     private static final int NOTIFICATION_ID = 1124;
     private static final int REQUEST_CONTENT_INTENT = 1000;
+    public static final String NOTIFICATION_CUSTOM_ACTION = "com.ryanheise.audioservice.NOTIFICATION_CUSTOM_ACTION";
+    public static final String NOTIFICATION_CUSTOM_ACTION_NAME = "com.ryanheise.audioservice.NOTIFICATION_CUSTOM_ACTION_NAME";
+    public static final String NOTIFICATION_CUSTOM_ACTION_EXTRAS = "com.ryanheise.audioservice.NOTIFICATION_CUSTOM_ACTION_EXTRAS";
     public static final String NOTIFICATION_CLICK_ACTION = "com.ryanheise.audioservice.NOTIFICATION_CLICK";
     public static final String CUSTOM_ACTION_STOP = "com.ryanheise.audioservice.action.STOP";
     public static final String CUSTOM_ACTION_FAST_FORWARD = "com.ryanheise.audioservice.action.FAST_FORWARD";
@@ -349,8 +352,39 @@ public class AudioService extends MediaBrowserServiceCompat {
         System.out.println("flutterEngine warmed up");
     }
 
+    private PendingIntent buildCustomActionPendingIntent(String action, Bundle extras) {
+        Intent i = new Intent(this, AudioService.class);
+        i.setAction(NOTIFICATION_CUSTOM_ACTION);
+        i.putExtra(NOTIFICATION_CUSTOM_ACTION_NAME, action);
+        if (extras != null) i.putExtra(NOTIFICATION_CUSTOM_ACTION_EXTRAS, extras);
+        int flags = 0;
+        if (Build.VERSION.SDK_INT >= 23) {
+            flags |= PendingIntent.FLAG_IMMUTABLE;
+        }
+        return PendingIntent.getService(this, action.hashCode(), i, flags);
+    }
+
+    public void handleOnCustomAction(String action, Bundle extras) {
+        if (listener == null) return;
+        if (CUSTOM_ACTION_STOP.equals(action)) {
+            forceStop();
+        } else if (CUSTOM_ACTION_FAST_FORWARD.equals(action)) {
+            listener.onFastForward();
+        } else if (CUSTOM_ACTION_REWIND.equals(action)) {
+            listener.onRewind();
+        } else {
+            listener.onCustomAction(action, extras);
+        }
+    }
+
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
+        if (intent != null && NOTIFICATION_CUSTOM_ACTION.equals(intent.getAction())) {
+            String action = intent.getStringExtra(NOTIFICATION_CUSTOM_ACTION_NAME);
+            Bundle extras = intent.getBundleExtra(NOTIFICATION_CUSTOM_ACTION_EXTRAS);
+            handleOnCustomAction(action, extras);
+            return START_NOT_STICKY;
+        }
         MediaButtonReceiver.handleIntent(mediaSession, intent);
         return START_NOT_STICKY;
     }
@@ -448,10 +482,10 @@ public class AudioService extends MediaBrowserServiceCompat {
         return getResources().getIdentifier(resourceName, resourceType, getApplicationContext().getPackageName());
     }
 
-    NotificationCompat.Action createAction(String resource, String label, long actionCode) {
-        int iconId = getResourceId(resource);
-        return new NotificationCompat.Action(iconId, label,
-                buildMediaButtonPendingIntent(actionCode));
+    NotificationCompat.Action createAction(MediaControl control) {
+        PendingIntent pi = control.customAction != null ? buildCustomActionPendingIntent(control.customAction.name, mapToBundle(control.customAction.extras)) : buildMediaButtonPendingIntent(control.actionCode);
+        int iconId = getResourceId(control.icon);
+        return new NotificationCompat.Action(iconId, control.label, pi);
     }
 
     private boolean needCustomMediaControl(MediaControl control) {
@@ -544,9 +578,12 @@ public class AudioService extends MediaBrowserServiceCompat {
             final PlaybackStateCompat.CustomAction customAction = createCustomAction(control);
             if (customAction != null) {
                 customActions.add(customAction);
-            } else {
-                nativeActions.add(createAction(control.icon, control.label, control.actionCode));
             }
+
+            // -- another type of pending intent is created also for custom actions
+            // -- some OEMs like OxygenOS 15 won't show custom actions without this. 
+            nativeActions.add(createAction(control));
+            
         }
         this.compactActionIndices = compactActionIndices;
         boolean wasPlaying = this.playing;
@@ -1116,16 +1153,7 @@ public class AudioService extends MediaBrowserServiceCompat {
 
         @Override
         public void onCustomAction(String action, Bundle extras) {
-            if (listener == null) return;
-            if (CUSTOM_ACTION_STOP.equals(action)) {
-                forceStop();
-            } else if (CUSTOM_ACTION_FAST_FORWARD.equals(action)) {
-                listener.onFastForward();
-            } else if (CUSTOM_ACTION_REWIND.equals(action)) {
-                listener.onRewind();
-            } else {
-                listener.onCustomAction(action, extras);
-            }
+            handleOnCustomAction(action, extras);
         }
 
         @Override
