@@ -622,7 +622,7 @@ public class AudioService extends MediaBrowserServiceCompat {
         mediaSession.setShuffleMode(shuffleMode);
         mediaSession.setCaptioningEnabled(captioningEnabled);
 
-        if (!wasPlaying && playing) {
+        if (!notificationCreated || (!wasPlaying && playing)) {
             enterPlayingState();
         } else if (wasPlaying && !playing) {
             exitPlayingState();
