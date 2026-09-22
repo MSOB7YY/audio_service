@@ -470,6 +470,9 @@ public class AudioService extends MediaBrowserServiceCompat {
         } else {
             contentIntent = null;
         }
+        // clients that build a card straight from the session (miui media control, media resumption)
+        // read this before anything is ever played, so it can't wait for enterPlayingState().
+        mediaSession.setSessionActivity(contentIntent);
         if (!config.androidResumeOnClick) {
             mediaSession.setMediaButtonReceiver(null);
         }
