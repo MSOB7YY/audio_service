@@ -76,6 +76,12 @@ void main() {
     expect(futureEnded, false);
   });
 
+  test('setNotificationTicker is no-op', () async {
+    runFuture();
+    await platform.setNotificationTicker(null);
+    expect(futureEnded, false);
+  });
+
   test('notifyChildrenChanged is no-op', () async {
     runFuture();
     await platform.notifyChildrenChanged(const NotifyChildrenChangedRequest(

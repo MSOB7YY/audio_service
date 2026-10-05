@@ -71,6 +71,10 @@ void main() {
       throwsUnimplementedError,
     );
     expect(
+      () => platform.setNotificationTicker(null),
+      throwsUnimplementedError,
+    );
+    expect(
       () => platform.notifyChildrenChanged(const NotifyChildrenChangedRequest(
           parentMediaId: Stubs.parentMediaId, options: Stubs.map)),
       throwsUnimplementedError,

@@ -53,6 +53,13 @@ class MethodChannelAudioService extends AudioServicePlatform {
   }
 
   @override
+  Future<bool> setNotificationTicker(String? ticker) async {
+    final supported = await handlerChannel.invokeMethod<bool>(
+        'setNotificationTicker', {'ticker': ticker});
+    return supported ?? false;
+  }
+
+  @override
   Future<void> notifyChildrenChanged(
       NotifyChildrenChangedRequest request) async {
     await handlerChannel.invokeMethod<void>(

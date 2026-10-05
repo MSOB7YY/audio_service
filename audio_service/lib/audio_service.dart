@@ -1237,6 +1237,12 @@ class AudioService {
     await _platform.setLockScreenArtwork(show);
   }
 
+  /// flyme's status bar ticker on the notification, null clears it.
+  /// returns false when the system has no ticker support.
+  static Future<bool> setNotificationTicker(String? ticker) {
+    return _platform.setNotificationTicker(ticker);
+  }
+
   /// Stops the service.
   static Future<void> _stop() async {
     await _platform.stopService(const StopServiceRequest());

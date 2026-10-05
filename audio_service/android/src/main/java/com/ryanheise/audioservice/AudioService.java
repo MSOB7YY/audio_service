@@ -46,6 +46,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import io.flutter.embedding.engine.FlutterEngine;
 
@@ -62,6 +63,8 @@ public class AudioService extends MediaBrowserServiceCompat {
     private static final boolean isA14 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
 
     private static final int NOTIFICATION_ID = 1124;
+    private static final int FLAG_ALWAYS_SHOW_TICKER = 0x01000000;
+    private static final int FLAG_ONLY_UPDATE_TICKER = 0x02000000;
     private static final int REQUEST_CONTENT_INTENT = 1000;
     public static final String NOTIFICATION_CUSTOM_ACTION = "com.ryanheise.audioservice.NOTIFICATION_CUSTOM_ACTION";
     public static final String NOTIFICATION_CUSTOM_ACTION_NAME = "com.ryanheise.audioservice.NOTIFICATION_CUSTOM_ACTION_NAME";
@@ -280,6 +283,7 @@ public class AudioService extends MediaBrowserServiceCompat {
     private int[] compactActionIndices;
     private MediaMetadataCompat mediaMetadata;
     private boolean lockscreenArtwork = true;
+    private String notificationTicker;
     private Bitmap artBitmap;
     private String notificationChannelId;
     private LruCache<String, Bitmap> artBitmapCache;
@@ -417,6 +421,32 @@ public class AudioService extends MediaBrowserServiceCompat {
         if (shouldRefresh) {
           setMetadata(this.mediaMetadata);
         }
+    }
+
+    private static Boolean tickerSupported;
+
+    // flyme status bar lyrics, lyricon & co fake the same field.
+    public static boolean isTickerSupported() {
+        if (tickerSupported == null) {
+            boolean supported;
+            try {
+                Notification.class.getField("FLAG_ALWAYS_SHOW_TICKER");
+                supported = true;
+            } catch (NoSuchFieldException e) {
+                supported = false;
+            }
+            tickerSupported = supported;
+        }
+        return tickerSupported;
+    }
+
+    public void setNotificationTicker(String ticker) {
+        if (Objects.equals(ticker, notificationTicker)) return;
+        notificationTicker = ticker;
+        if (!notificationCreated) return;
+        final Notification notification = buildNotification();
+        notification.flags |= FLAG_ONLY_UPDATE_TICKER;
+        getNotificationManager().notify(NOTIFICATION_ID, notification);
     }
 
     @Override
@@ -718,7 +748,12 @@ public class AudioService extends MediaBrowserServiceCompat {
             builder.setOngoing(true);
         }
         builder.setStyle(style);
-        return builder.build();
+        final String ticker = notificationTicker;
+        if (ticker == null) return builder.build();
+        builder.setTicker(ticker);
+        final Notification notification = builder.build();
+        notification.flags |= FLAG_ALWAYS_SHOW_TICKER;
+        return notification;
     }
 
     private NotificationManager getNotificationManager() {

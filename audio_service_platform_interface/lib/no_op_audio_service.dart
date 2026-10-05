@@ -45,6 +45,11 @@ class NoOpAudioService extends AudioServicePlatform {
   }
 
   @override
+  Future<bool> setNotificationTicker(String? ticker) {
+    return SynchronousFuture(false);
+  }
+
+  @override
   Future<void> notifyChildrenChanged(NotifyChildrenChangedRequest request) {
     return SynchronousFuture(null);
   }

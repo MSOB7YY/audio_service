@@ -81,6 +81,11 @@ abstract class AudioServicePlatform extends PlatformInterface {
         'setLockScreenArtwork() has not been implemented.');
   }
 
+  Future<bool> setNotificationTicker(String? ticker) async {
+    throw UnimplementedError(
+        'setNotificationTicker() has not been implemented.');
+  }
+
   Future<void> notifyChildrenChanged(
       NotifyChildrenChangedRequest request) async {
     throw UnimplementedError(
