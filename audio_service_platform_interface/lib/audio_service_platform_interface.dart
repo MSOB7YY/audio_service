@@ -616,6 +616,9 @@ class MediaItemMessage {
   /// The artist of this media item.
   final String? artist;
 
+  /// The artist of the album this media item belongs to.
+  final String? albumArtist;
+
   /// The genre of this media item.
   final String? genre;
 
@@ -657,6 +660,7 @@ class MediaItemMessage {
     required this.title,
     this.album,
     this.artist,
+    this.albumArtist,
     this.genre,
     this.duration,
     this.artUri,
@@ -677,6 +681,7 @@ class MediaItemMessage {
         title: raw['title'] as String,
         album: raw['album'] as String?,
         artist: raw['artist'] as String?,
+        albumArtist: raw['albumArtist'] as String?,
         genre: raw['genre'] as String?,
         duration: raw['duration'] != null
             ? Duration(milliseconds: raw['duration'] as int)
@@ -702,6 +707,7 @@ class MediaItemMessage {
         'title': title,
         'album': album,
         'artist': artist,
+        'albumArtist': albumArtist,
         'genre': genre,
         'duration': duration?.inMilliseconds,
         'artUri': artUri?.toString(),

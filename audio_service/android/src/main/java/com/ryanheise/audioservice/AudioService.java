@@ -128,7 +128,7 @@ public class AudioService extends MediaBrowserServiceCompat {
         }
     }
 
-    MediaMetadataCompat createMediaMetadata(String mediaId, String title, String album, String artist, String genre, Long duration, String artUri, Boolean playable, String displayTitle, String displaySubtitle, String displayDescription, RatingCompat rating, Map<?, ?> extras) {
+    MediaMetadataCompat createMediaMetadata(String mediaId, String title, String album, String artist, String albumArtist, String genre, Long duration, String artUri, Boolean playable, String displayTitle, String displaySubtitle, String displayDescription, RatingCompat rating, Map<?, ?> extras) {
         MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder()
                 .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, mediaId)
                 .putString(MediaMetadataCompat.METADATA_KEY_TITLE, title);
@@ -136,6 +136,8 @@ public class AudioService extends MediaBrowserServiceCompat {
             builder.putString(MediaMetadataCompat.METADATA_KEY_ALBUM, album);
         if (artist != null)
             builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artist);
+        if (albumArtist != null)
+            builder.putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, albumArtist);
         if (genre != null)
             builder.putString(MediaMetadataCompat.METADATA_KEY_GENRE, genre);
         if (duration != null)

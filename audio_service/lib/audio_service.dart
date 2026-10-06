@@ -580,6 +580,9 @@ class MediaItem {
   /// The artist of this media item.
   final String? artist;
 
+  /// The artist of the album this media item belongs to.
+  final String? albumArtist;
+
   /// The genre of this media item.
   final String? genre;
 
@@ -643,6 +646,7 @@ class MediaItem {
     required this.title,
     this.album,
     this.artist,
+    this.albumArtist,
     this.genre,
     this.duration,
     this.artUri,
@@ -672,6 +676,7 @@ class MediaItem {
         album: album,
         title: title,
         artist: artist,
+        albumArtist: albumArtist,
         genre: genre,
         duration: duration,
         artUri: artUri,
@@ -696,6 +701,7 @@ abstract class MediaItemCopyWith {
     String title,
     String? album,
     String? artist,
+    String? albumArtist,
     String? genre,
     Duration? duration,
     Uri? artUri,
@@ -725,6 +731,7 @@ class _MediaItemCopyWith extends MediaItemCopyWith {
     Object? title = _fakeNull,
     Object? album = _fakeNull,
     Object? artist = _fakeNull,
+    Object? albumArtist = _fakeNull,
     Object? genre = _fakeNull,
     Object? duration = _fakeNull,
     Object? artUri = _fakeNull,
@@ -741,6 +748,9 @@ class _MediaItemCopyWith extends MediaItemCopyWith {
         title: title == _fakeNull ? value.title : title as String,
         album: album == _fakeNull ? value.album : album as String?,
         artist: artist == _fakeNull ? value.artist : artist as String?,
+        albumArtist: albumArtist == _fakeNull
+            ? value.albumArtist
+            : albumArtist as String?,
         genre: genre == _fakeNull ? value.genre : genre as String?,
         duration:
             duration == _fakeNull ? value.duration : duration as Duration?,
@@ -3619,6 +3629,7 @@ extension _MediaItemMessageExtension on MediaItemMessage {
         album: album,
         title: title,
         artist: artist,
+        albumArtist: albumArtist,
         genre: genre,
         duration: duration,
         artUri: artUri,
