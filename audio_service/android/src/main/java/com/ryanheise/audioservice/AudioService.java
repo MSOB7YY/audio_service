@@ -663,6 +663,11 @@ public class AudioService extends MediaBrowserServiceCompat {
             exitPlayingState();
         }
 
+        if (playing != wasPlaying) {
+            if (playing) acquireWakeLock();
+            else releaseWakeLock();
+        }
+
         if (oldProcessingState != AudioProcessingState.idle && processingState == AudioProcessingState.idle) {
             // TODO: Handle completed state as well?
             stop();
@@ -813,7 +818,6 @@ public class AudioService extends MediaBrowserServiceCompat {
         if (!mediaSession.isActive())
             mediaSession.setActive(true);
 
-        acquireWakeLock();
         mediaSession.setSessionActivity(contentIntent);
         internalStartForeground();
     }
@@ -827,7 +831,6 @@ public class AudioService extends MediaBrowserServiceCompat {
     private void exitForegroundState() {
         ServiceCompat.stopForeground(this, STOP_FOREGROUND_DETACH);
         stopForeground(STOP_FOREGROUND_DETACH);
-        releaseWakeLock();
     }
 
     private void internalStartForeground() {
