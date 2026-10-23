@@ -239,6 +239,15 @@ static NSMutableDictionary *nowPlayingInfo = nil;
         startResult = nil;
         commandCenter = nil;
         result(@{});
+    } else if ([@"forceStop" isEqualToString:call.method] ||
+               [@"setLockScreenArtwork" isEqualToString:call.method] ||
+               [@"setNotificationTicker" isEqualToString:call.method] ||
+               [@"evictArtworkCache" isEqualToString:call.method] ||
+               [@"setAndroidPlaybackInfo" isEqualToString:call.method]) {
+        // android only, completed so dart never waits on them
+        result(nil);
+    } else {
+        result(FlutterMethodNotImplemented);
     }
 }
 
