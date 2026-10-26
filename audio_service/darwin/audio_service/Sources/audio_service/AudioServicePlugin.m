@@ -142,6 +142,16 @@ static NSMutableDictionary *nowPlayingInfo = nil;
         fastForwardInterval = configMap[@"fastForwardInterval"];
         rewindInterval = configMap[@"rewindInterval"];
         result(@{});
+    } else if ([@"setSkipIntervals" isEqualToString:call.method]) {
+        NSDictionary *args = (NSDictionary *)call.arguments;
+        fastForwardInterval = args[@"fastForwardInterval"];
+        rewindInterval = args[@"rewindInterval"];
+        // the intervals are otherwise applied only when a skip command gets enabled
+        if (commandCenter) {
+            commandCenter.skipForwardCommand.preferredIntervals = @[@([fastForwardInterval intValue] / 1000)];
+            commandCenter.skipBackwardCommand.preferredIntervals = @[@([rewindInterval intValue] / 1000)];
+        }
+        result(@{});
     } else if ([@"setState" isEqualToString:call.method]) {
         NSDictionary *args = (NSDictionary *)call.arguments;
         NSDictionary *stateMap = (NSDictionary *)args[@"state"];

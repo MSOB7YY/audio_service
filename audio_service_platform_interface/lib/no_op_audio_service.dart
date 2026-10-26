@@ -65,5 +65,10 @@ class NoOpAudioService extends AudioServicePlatform {
   }
 
   @override
+  Future<void> setSkipIntervals(SetSkipIntervalsRequest request) {
+    return SynchronousFuture(null);
+  }
+
+  @override
   void setHandlerCallbacks(AudioHandlerCallbacks callbacks) {}
 }

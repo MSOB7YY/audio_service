@@ -1123,6 +1123,19 @@ class AudioService {
     await _platform.evictArtworkCache(const EvictArtworkCacheRequest());
   }
 
+  /// iOS & macOS only: updates the intervals the now playing skip buttons
+  /// show, first set by [AudioServiceConfig.fastForwardInterval] and
+  /// [AudioServiceConfig.rewindInterval].
+  static Future<void> setSkipIntervals({
+    required Duration fastForwardInterval,
+    required Duration rewindInterval,
+  }) async {
+    await _platform.setSkipIntervals(SetSkipIntervalsRequest(
+      fastForwardInterval: fastForwardInterval,
+      rewindInterval: rewindInterval,
+    ));
+  }
+
   static Future<void> _observeQueue() async {
     await for (var queue in _handler.queue) {
       if (_config.preloadArtwork) {

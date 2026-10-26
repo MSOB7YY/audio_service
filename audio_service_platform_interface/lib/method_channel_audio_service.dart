@@ -81,6 +81,12 @@ class MethodChannelAudioService extends AudioServicePlatform {
   }
 
   @override
+  Future<void> setSkipIntervals(SetSkipIntervalsRequest request) async {
+    await handlerChannel.invokeMethod<void>(
+        'setSkipIntervals', request.toMap());
+  }
+
+  @override
   void setHandlerCallbacks(AudioHandlerCallbacks callbacks) {
     handlerChannel.setMethodCallHandler((call) async {
       return handlerCallbacksCallHandler(callbacks, call);

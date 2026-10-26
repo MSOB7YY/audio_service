@@ -70,6 +70,12 @@ abstract class AudioServicePlatform extends PlatformInterface {
         'evictArtworkCache() has not been implemented.');
   }
 
+  /// iOS & macOS only, the intervals the skip buttons show.
+  Future<void> setSkipIntervals(SetSkipIntervalsRequest request) async {
+    throw UnimplementedError(
+        'setSkipIntervals() has not been implemented.');
+  }
+
   Future<void> androidForceEnableMediaButtons(
       AndroidForceEnableMediaButtonsRequest request) async {
     throw UnimplementedError(
@@ -892,6 +898,22 @@ class EvictArtworkCacheRequest {
   const EvictArtworkCacheRequest();
 
   Map<String, dynamic> toMap() => <String, dynamic>{};
+}
+
+class SetSkipIntervalsRequest {
+  final Duration fastForwardInterval;
+  final Duration rewindInterval;
+
+  @literal
+  const SetSkipIntervalsRequest({
+    required this.fastForwardInterval,
+    required this.rewindInterval,
+  });
+
+  Map<String, dynamic> toMap() => <String, dynamic>{
+        'fastForwardInterval': fastForwardInterval.inMilliseconds,
+        'rewindInterval': rewindInterval.inMilliseconds,
+      };
 }
 
 class AndroidForceEnableMediaButtonsRequest {
