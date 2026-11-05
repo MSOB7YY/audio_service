@@ -66,6 +66,7 @@ public class AudioService extends MediaBrowserServiceCompat {
     private static final int FLAG_ALWAYS_SHOW_TICKER = 0x01000000;
     private static final int FLAG_ONLY_UPDATE_TICKER = 0x02000000;
     private static final int REQUEST_CONTENT_INTENT = 1000;
+    private static final long WAKE_LOCK_PAUSE_RELEASE_DELAY_MS = 30_000;
     public static final String NOTIFICATION_CUSTOM_ACTION = "com.ryanheise.audioservice.NOTIFICATION_CUSTOM_ACTION";
     public static final String NOTIFICATION_CUSTOM_ACTION_NAME = "com.ryanheise.audioservice.NOTIFICATION_CUSTOM_ACTION_NAME";
     public static final String NOTIFICATION_CUSTOM_ACTION_EXTRAS = "com.ryanheise.audioservice.NOTIFICATION_CUSTOM_ACTION_EXTRAS";
@@ -277,6 +278,8 @@ public class AudioService extends MediaBrowserServiceCompat {
     private FlutterEngine flutterEngine;
     private AudioServiceConfig config;
     private PowerManager.WakeLock wakeLock;
+    private final Handler wakeLockHandler = new Handler(Looper.getMainLooper());
+    private final Runnable releaseWakeLockRunnable = this::releaseWakeLock;
     private MediaSessionCompat mediaSession;
     private MediaSessionCallback mediaSessionCallback;
     private List<MediaControl> controls = new ArrayList<>();
@@ -665,7 +668,7 @@ public class AudioService extends MediaBrowserServiceCompat {
 
         if (playing != wasPlaying) {
             if (playing) acquireWakeLock();
-            else releaseWakeLock();
+            else releaseWakeLockDelayed();
         }
 
         if (oldProcessingState != AudioProcessingState.idle && processingState == AudioProcessingState.idle) {
@@ -839,11 +842,19 @@ public class AudioService extends MediaBrowserServiceCompat {
     }
 
     private void acquireWakeLock() {
+        wakeLockHandler.removeCallbacks(releaseWakeLockRunnable);
         if (!wakeLock.isHeld())
             wakeLock.acquire();
     }
 
+    // -- short pauses (item switches, error retries) still need the cpu awake
+    private void releaseWakeLockDelayed() {
+        wakeLockHandler.removeCallbacks(releaseWakeLockRunnable);
+        wakeLockHandler.postDelayed(releaseWakeLockRunnable, WAKE_LOCK_PAUSE_RELEASE_DELAY_MS);
+    }
+
     private void releaseWakeLock() {
+        wakeLockHandler.removeCallbacks(releaseWakeLockRunnable);
         if (wakeLock.isHeld())
             wakeLock.release();
     }
