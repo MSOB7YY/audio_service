@@ -30,7 +30,9 @@ void main() {
         async.elapse(duration);
         expect(
           localState.position,
-          Duration(milliseconds: (duration.inMilliseconds * speed).toInt()),
+          Duration(
+              milliseconds:
+                  (duration.inMilliseconds * (1 + speed)).toInt()),
         );
 
         // Playing set to false or not [AudioProcessingState.ready] should
@@ -45,6 +47,34 @@ void main() {
         );
         async.elapse(duration);
         expect(state.position, Duration.zero);
+      });
+    });
+
+    test('copyWith carries the played position over', () {
+      fakeAsync((async) {
+        const elapsed = Duration(seconds: 30);
+        final playing = PlaybackState(
+          processingState: AudioProcessingState.ready,
+          playing: true,
+          updatePosition: const Duration(seconds: 5),
+        );
+        async.elapse(elapsed);
+        final copy = playing.copyWith(controls: const [MediaControl.pause]);
+        expect(copy.updatePosition, const Duration(seconds: 35));
+        expect(copy.position, const Duration(seconds: 35));
+        async.elapse(elapsed);
+        expect(copy.position, const Duration(seconds: 65));
+
+        final paused = PlaybackState(
+          processingState: AudioProcessingState.ready,
+          updatePosition: const Duration(seconds: 5),
+        );
+        async.elapse(elapsed);
+        final pausedCopy = paused.copyWith(controls: const [MediaControl.play]);
+        expect(pausedCopy.updatePosition, const Duration(seconds: 5));
+
+        final explicit = playing.copyWith(updatePosition: Duration.zero);
+        expect(explicit.updatePosition, Duration.zero);
       });
     });
 

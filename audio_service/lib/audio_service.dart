@@ -409,7 +409,7 @@ class _PlaybackStateCopyWith extends PlaybackStateCopyWith {
             ? value.systemActions
             : systemActions as Set<MediaAction>,
         updatePosition: updatePosition == _fakeNull
-            ? value.updatePosition
+            ? value.position
             : updatePosition as Duration,
         bufferedPosition: bufferedPosition == _fakeNull
             ? value.bufferedPosition
