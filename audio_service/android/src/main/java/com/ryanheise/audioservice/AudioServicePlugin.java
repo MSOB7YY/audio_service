@@ -1154,8 +1154,8 @@ public class AudioServicePlugin implements FlutterPlugin, ActivityAware {
         raw.put("displayTitle", metadataToString(mediaMetadata, MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE));
         raw.put("displaySubtitle", metadataToString(mediaMetadata, MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE));
         raw.put("displayDescription", metadataToString(mediaMetadata, MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION));
-        if (mediaMetadata.containsKey(MediaMetadataCompat.METADATA_KEY_RATING)) {
-            raw.put("rating", rating2raw(mediaMetadata.getRating(MediaMetadataCompat.METADATA_KEY_RATING)));
+        if (mediaMetadata.containsKey(MediaMetadataCompat.METADATA_KEY_USER_RATING)) {
+            raw.put("rating", rating2raw(mediaMetadata.getRating(MediaMetadataCompat.METADATA_KEY_USER_RATING)));
         }
         Map<String, Object> extras = bundleToMap(mediaMetadata.getBundle());
         if (extras.size() > 0) {

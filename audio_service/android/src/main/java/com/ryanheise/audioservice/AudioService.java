@@ -155,7 +155,7 @@ public class AudioService extends MediaBrowserServiceCompat {
         if (displayDescription != null)
             builder.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, displayDescription);
         if (rating != null) {
-            builder.putRating(MediaMetadataCompat.METADATA_KEY_RATING, rating);
+            builder.putRating(MediaMetadataCompat.METADATA_KEY_USER_RATING, rating);
         }
         if (extras != null) {
             for (Object o : extras.keySet()) {
@@ -287,6 +287,7 @@ public class AudioService extends MediaBrowserServiceCompat {
     private List<PlaybackStateCompat.CustomAction> customActions = new ArrayList<>();
     private int[] compactActionIndices;
     private MediaMetadataCompat mediaMetadata;
+    private int ratingType = RatingCompat.RATING_NONE;
     private boolean lockscreenArtwork = true;
     private String notificationTicker;
     private Bitmap artBitmap;
@@ -922,9 +923,20 @@ public class AudioService extends MediaBrowserServiceCompat {
             }
         }
         this.mediaMetadata = mediaMetadata;
+        updateRatingType(mediaMetadata);
         mediaSession.setMetadata(mediaMetadata);
         handler.removeCallbacksAndMessages(null);
         handler.post(this::updateNotification);
+    }
+
+    // -- controllers only call setRating when the session declares a rating type
+    private void updateRatingType(MediaMetadataCompat mediaMetadata) {
+        RatingCompat rating = mediaMetadata.getRating(MediaMetadataCompat.METADATA_KEY_USER_RATING);
+        if (rating == null) return;
+        int newRatingType = rating.getRatingStyle();
+        if (newRatingType == ratingType) return;
+        ratingType = newRatingType;
+        mediaSession.setRatingType(newRatingType);
     }
 
     private MediaMetadataCompat putArtToMetadata(MediaMetadataCompat mediaMetadata) {
