@@ -33,6 +33,7 @@ import androidx.core.app.ServiceCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.media.MediaBrowserServiceCompat;
+import androidx.media.MediaSessionManager;
 import androidx.media.VolumeProviderCompat;
 import androidx.media.app.NotificationCompat.MediaStyle;
 import androidx.media.utils.MediaConstants;
@@ -44,9 +45,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import io.flutter.embedding.engine.FlutterEngine;
 
@@ -117,6 +120,16 @@ public class AudioService extends MediaBrowserServiceCompat {
 
     public static void init(ServiceListener listener) {
         AudioService.listener = listener;
+    }
+
+    // -- android auto, wear, etc. system resumption asks for the recent root instead
+    private static final Set<String> browsingClientPackages = new HashSet<>();
+    private static boolean wasPlayRequestedByBrowsingClient = false;
+
+    public static boolean consumePlayRequestedByBrowsingClient() {
+        final boolean wasRequested = wasPlayRequestedByBrowsingClient;
+        wasPlayRequestedByBrowsingClient = false;
+        return wasRequested;
     }
 
     public static int toKeyCode(long action) {
@@ -952,6 +965,7 @@ public class AudioService extends MediaBrowserServiceCompat {
     public BrowserRoot onGetRoot(String clientPackageName, int clientUid, Bundle rootHints) {
         Boolean isRecentRequest = rootHints == null ? null : (Boolean)rootHints.getBoolean(BrowserRoot.EXTRA_RECENT);
         if (isRecentRequest == null) isRecentRequest = false;
+        if (!isRecentRequest) browsingClientPackages.add(clientPackageName);
         Bundle extras = config.getBrowsableRootExtras();
         return new BrowserRoot(isRecentRequest ? RECENT_ROOT_ID : BROWSABLE_ROOT_ID, extras);
         // The response must be given synchronously, and we can't get a
@@ -1054,6 +1068,10 @@ public class AudioService extends MediaBrowserServiceCompat {
         @Override
         public void onPlay() {
             if (listener == null) return;
+            if (!browsingClientPackages.isEmpty()) {
+                final MediaSessionManager.RemoteUserInfo controller = mediaSession.getCurrentControllerInfo();
+                if (controller != null && browsingClientPackages.contains(controller.getPackageName())) wasPlayRequestedByBrowsingClient = true;
+            }
             listener.onPlay();
         }
 

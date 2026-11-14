@@ -67,6 +67,14 @@ public class AudioServicePlugin implements FlutterPlugin, ActivityAware {
     public static String getFlutterEngineId() {
         return flutterEngineId;
     }
+    public interface FlutterEngineConfigurator {
+        void configure(FlutterEngine flutterEngine);
+    }
+    private static FlutterEngineConfigurator flutterEngineConfigurator;
+    /** Must be called BEFORE any FlutterEngine is created. e.g. in Application class. Runs before dart starts, also for engines the service starts without an activity. */
+    public static void setFlutterEngineConfigurator(FlutterEngineConfigurator configurator) {
+        flutterEngineConfigurator = configurator;
+    }
     public static synchronized FlutterEngine getFlutterEngine(Context context) {
         FlutterEngine flutterEngine = FlutterEngineCache.getInstance().get(flutterEngineId);
         if (flutterEngine == null) {
@@ -107,6 +115,7 @@ public class AudioServicePlugin implements FlutterPlugin, ActivityAware {
                 initialRoute = "/";
             }
             flutterEngine.getNavigationChannel().setInitialRoute(initialRoute);
+            if (flutterEngineConfigurator != null) flutterEngineConfigurator.configure(flutterEngine);
             flutterEngine.getDartExecutor().executeDartEntrypoint(DartExecutor.DartEntrypoint.createDefault());
             FlutterEngineCache.getInstance().put(flutterEngineId, flutterEngine);
         }
